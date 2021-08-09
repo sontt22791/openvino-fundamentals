@@ -1,5 +1,11 @@
 Course: https://www.udacity.com/course/intel-edge-AI-fundamentals-with-openvino--ud132
+
 NOTE: version của openvino trong course này là 2019.R3, vì vậy có 1 số func đã deprecated
+
+- Overview (nên đọc): https://viblo.asia/p/model-optimization-toi-uu-hoa-model-voi-openvino-toolkit-model-optimization-with-openvino-toolkit-924lJpPzKPM
+- platform tương tự: [TensorRT](https://developer.nvidia.com/tensorrt)
+- OWCT: GUI để sử dụng openvino => hợp nhất quy trình làm việc openvino: [introduce](https://www.thegioimaychu.vn/solution/qnap/openvino-workflow-consolidation-tool-p1588/),  [tutorial](https://www.qnap.com/en/how-to/tutorial/article/openvino-workflow-consolidation-tool-tutorial)
+
 
 Flow:
 
@@ -178,8 +184,21 @@ print(net.requests[request_id].inputs)
 print(net.requests[request_id].latency)
 ```
 
+# Lesson 5: Deploy an app
 
+## a. MQTT
+dùng để notify từ edge device
+![](images/mqtt.png)
 
+## b. FFmpeg
+FFmpeg là lib dùng để streaming images/videos.
+- tương tự như MQTT, FFmpeg cũng cần 1 server để nhận video frames mà edge device sent tới
+- trong project của lesson này, FFmpeg đc setup cho phép `listen to the system stdout buffer` => vì vậy có thể khi dùng python có thể send video frame bằng `sys.stdout.buffer.write(frame)` trong lib `sys`
 
+## c. Combine edge app - MQTT - FFmpeg
+sau khi message/video frame đã đc sent lên MQTT/ FFmpeg server, có nhiều cách để có thể đọc data từ server. Tuy nhiên trong project của course này, tác giả build 1 simple web app để subcriber message từ MQTT và FFmpeg server (sử dụng node.js)
+
+Sample project: https://www.youtube.com/watch?v=c2cNJgrvHmg
 # Links
 - OpenVINO™ on a Raspberry Pi and Intel® Neural Compute Stick: https://www.pyimagesearch.com/2019/04/08/openvino-opencv-and-movidius-ncs-on-the-raspberry-pi/
+
